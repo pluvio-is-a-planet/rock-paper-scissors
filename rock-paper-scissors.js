@@ -86,53 +86,6 @@ function game() {
 	let userPoints = 0;
 	let computerPoints = 0;
 
-	// loop that executes 5 times
-	for (let i = 0; i < 5; i++) {
-
-		// checks win condition
-		if (userPoints === 3) {
-			
-			console.log(`Player wins the game!\n
-Final score:
-Player: ${userPoints}
-Computer: ${computerPoints}`);
-
-			break;
-		} else if (computerPoints === 3) {
-			
-			console.log(`Computer wins the game!\n
-Final score:
-Player: ${userPoints}
-Computer: ${computerPoints}`)
-			
-			break;
-		} else {
-			// play round to determine result and increment points
-			let roundResult = playRound(getComputerChoice(), prompt('Rock, paper, or scissors?', ''));
-
-			let resultString = roundResult.stringResult; // Retrieve string property from returned object the playRound() function
-			let resultIndex = roundResult.result; // Retrieve index of win condition property from returned object the playRound() function
-
-			if (resultIndex === 0) { // If the player wins
-				++userPoints;
-			} else if (resultIndex === 1) { // If the computer wins
-				++computerPoints;
-			} else if (resultIndex === 2) { // If the round is a tie
-				i--; //Adds 1 extra round so that the game continues until a winner is chosen
-			} else {
-				i--;
-				console.log('Something went wrong, computer or player choice missing.')
-			}
-
-			// Display the outcome of every round player and the current tracked score
-			console.log(`${resultString} Currrent score is:\n
-Player: ${userPoints}
-Computer: ${computerPoints}`)
-		
-		}
-		
-	}
-
 }
 
 alert(`Let's play rock, paper, scissors!
