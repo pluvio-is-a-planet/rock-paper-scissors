@@ -80,10 +80,7 @@ function playRound(computerSelection = '', playerSelection = '') {
 
 }
 
-// function to run the playRound() function 5 times or until one of the players reaches 3 score
-function game() {
-
-	let userPoints = 0;
-	let computerPoints = 0;
-
-}
+const selectBtns = document.querySelectorAll('#btn');
+selectBtns.forEach((selectBtn) => {
+	selectBtn.addEventListener('click', playRound(getComputerChoice, getPlayerChoice));
+});
