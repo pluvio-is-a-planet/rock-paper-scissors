@@ -1,4 +1,6 @@
 const CHOICES = ['rock', 'paper', 'scissors'];
+let playerScore = 0;
+let computerScore = 0;
 
 // function to get the randomly chosen computer choice
 // choice is selected in an array of options,
@@ -32,9 +34,11 @@ function playRound(computerSelection = '', playerSelection = '') {
 				break;
 			case 'paper':
 				result = GAME_RESULTS[0];
+        playerScore++;
 				break;
 			case 'scissors':
 				result = GAME_RESULTS[1];
+        computerScore++;
 				break;
 			default:
 				return 'You did not choose, or you entered an invalid input.';
@@ -43,12 +47,14 @@ function playRound(computerSelection = '', playerSelection = '') {
 		switch (playerSelection) {
 			case 'rock':
 				result = GAME_RESULTS[1];
+        computerScore++;
 				break;
 			case 'paper':
 				result = GAME_RESULTS[2];
 				break;
 			case 'scissors':
 				result = GAME_RESULTS[0];
+        playerScore++;
 				break;
 			default:
 				return 'You did not choose, or you entered an invalid input.';
@@ -57,9 +63,11 @@ function playRound(computerSelection = '', playerSelection = '') {
 		switch (playerSelection) {
 			case 'rock':
 				result = GAME_RESULTS[0];
+        playerScore++;
 				break;
 			case 'paper':
 				result = GAME_RESULTS[1];
+        computerScore++;
 				break;
 			case 'scissors':
 				result = GAME_RESULTS[2];
@@ -82,28 +90,8 @@ function playRound(computerSelection = '', playerSelection = '') {
 
 const selectBtns = document.querySelectorAll('#btn');
 
-let playerScore = 0;
-let computerScore = 0;
-
 selectBtns.forEach((selectBtn) => {
 	selectBtn.addEventListener('click', (e) => {
-    
-      let playerChoice = e.target.parentElement.className;
-      let roundResult = playRound(getComputerChoice(), playerChoice);
-
-      let computerScoreDisplay = document.querySelector('#computer-score');
-      let playerScoreDisplay = document.querySelector('#player-score');
-      let roundOverview = document.querySelector('#round-overview');
-      
-      if (roundResult.result === 0) {
-        playerScore++;
-      } else if (roundResult.result === 1) {
-        computerScore++;
-      }
-
-      computerScoreDisplay.textContent = `Computer: ${computerScore}`;
-      playerScoreDisplay.textContent = `Player: ${playerScore}`;
-      roundOverview.textContent = roundResult.stringResult;
 
   });
 });
