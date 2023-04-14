@@ -87,23 +87,31 @@ let computerScore = 0;
 
 selectBtns.forEach((selectBtn) => {
 	selectBtn.addEventListener('click', (e) => {
-
-    let playerChoice = e.target.parentElement.className;
-    let roundResult = playRound(getComputerChoice(), playerChoice);
-
-    let computerScoreDisplay = document.querySelector('#computer-score');
-    let playerScoreDisplay = document.querySelector('#player-score');
-    let roundOverview = document.querySelector('#round-overview');
     
-    if (roundResult.result === 0) {
-      playerScore++;
-    } else if (roundResult.result === 1) {
-      computerScore++;
-    }
+      let playerChoice = e.target.parentElement.className;
+      let roundResult = playRound(getComputerChoice(), playerChoice);
 
-    computerScoreDisplay.textContent = `Computer: ${computerScore}`;
-    playerScoreDisplay.textContent = `Player: ${playerScore}`;
-    roundOverview.textContent = roundResult.stringResult;
+      let computerScoreDisplay = document.querySelector('#computer-score');
+      let playerScoreDisplay = document.querySelector('#player-score');
+      let roundOverview = document.querySelector('#round-overview');
+      
+      if (roundResult.result === 0) {
+        playerScore++;
+      } else if (roundResult.result === 1) {
+        computerScore++;
+      }
+
+      computerScoreDisplay.textContent = `Computer: ${computerScore}`;
+      playerScoreDisplay.textContent = `Player: ${playerScore}`;
+      roundOverview.textContent = roundResult.stringResult;
 
   });
 });
+
+function determineGameWinner(playerScore, computerScore) {
+  if (playerScore === 5) {
+    return 'Player wins! Game over.';
+  } else if (computerScore === 5) {
+    return 'Computer Wins! Game over.';
+  }
+}
