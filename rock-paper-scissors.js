@@ -1,6 +1,9 @@
 const CHOICES = ['rock', 'paper', 'scissors'];
 let playerScore = 0;
 let computerScore = 0;
+const output = document.querySelector('#output');
+const playerScoreDisp = document.querySelector('#player-score');
+const computerScoreDisp = document.querySelector('#computer-score');
 
 // function to get the randomly chosen computer choice
 // choice is selected in an array of options,
@@ -18,11 +21,13 @@ function getComputerChoice() {
 // add check to see which player wins and return the appropriate string
 // test player's choice against computer's choice in switch case statements
 // nested inside if else statements
-function playRound(computerSelection = '', playerSelection = '') {
+function playRound(playerSelection) {
 
 	// array to contain the result of each scenario
 	const GAME_RESULTS = ['You win!', 'You lose...', 'It\'s a tie.']
 	let result = '';
+
+  let computerSelection = getComputerChoice();
 
 	// playerSelection = playerSelection.toLowerCase(); // Allows the player to input their answer in any case.
 
@@ -79,12 +84,14 @@ function playRound(computerSelection = '', playerSelection = '') {
 		throw new Error('Something went wrong, somehow the computer didn\'t make a choice.')
 	} // This error only occurs if the computer didn't get a selection, very unlikely to occur
 
+  let gameResult = determineGameWinner();
 	// Build a string displaying the result of the game
 	// Return the result to use in game() function
-	return {
-		stringResult: `${result} The computer chose ${computerSelection} and you chose ${playerSelection}.`,
-		result: GAME_RESULTS.indexOf(result) // Index used to determine win condition from an array
-	};
+  if (playerScore === 5 || computerScore === 5) {
+    return gameResult;
+  } else {
+    return `${result} The computer chose ${computerSelection} and you chose ${playerSelection}.`;
+  }
 
 }
 
@@ -92,14 +99,27 @@ const selectBtns = document.querySelectorAll('#btn');
 
 selectBtns.forEach((selectBtn) => {
 	selectBtn.addEventListener('click', (e) => {
+    
+    // Plays the game only while both scores are under 5
+    // Grab player's choice from the targeted button
+    // Then store the result of the playround() function which is being called with the player's choice passed
+    // as an argument
+    if (playerScore < 5 && computerScore < 5) {
+      let playerChoice = selectBtn.className;
+      let roundResult = playRound(playerChoice);
+
+      output.textContent = roundResult;
+      playerScoreDisp.textContent = `Player: ${playerScore}`;
+      computerScoreDisp.textContent = `Computer: ${computerScore}`;
+    }
 
   });
 });
 
-function determineGameWinner(playerScore, computerScore) {
+function determineGameWinner() {
   if (playerScore === 5) {
-    return 'Player wins! Game over.';
+    return 'Player wins! Game over. B^)';
   } else if (computerScore === 5) {
-    return 'Computer Wins! Game over.';
+    return 'Computer Wins... You lose. Game over. :^(';
   }
 }
