@@ -2,6 +2,7 @@ const CHOICES = ['rock', 'paper', 'scissors'];
 let playerScore = 0;
 let computerScore = 0;
 const output = document.querySelector('#output');
+output.textContent = 'Rock, paper, or scissors?';
 const playerScoreDisp = document.querySelector('#player-score');
 const computerScoreDisp = document.querySelector('#computer-score');
 
