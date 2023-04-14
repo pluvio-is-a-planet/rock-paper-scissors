@@ -81,13 +81,27 @@ function playRound(computerSelection = '', playerSelection = '') {
 }
 
 const selectBtns = document.querySelectorAll('#btn');
-console.log(selectBtns);
+
+let playerScore = 0;
+let computerScore = 0;
 
 selectBtns.forEach((selectBtn) => {
 	selectBtn.addEventListener('click', (e) => {
 
     let playerChoice = e.target.parentElement.className;
-    playRound(getComputerChoice(), playerChoice);
+    let roundResult = playRound(getComputerChoice(), playerChoice);
+
+    let computerScoreDisplay = document.querySelector('#computer-score');
+    let playerScoreDisplay = document.querySelector('#player-score');
+    
+    if (roundResult.result === 0) {
+      playerScore++;
+    } else if (roundResult.result === 1) {
+      computerScore++;
+    }
+
+    computerScoreDisplay.textContent = `Computer: ${computerScore}`;
+    playerScoreDisplay.textContent = `Player: ${playerScore}`;
 
   });
 });
