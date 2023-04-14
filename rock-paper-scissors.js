@@ -88,6 +88,12 @@ function playRound(playerSelection) {
 	// Build a string displaying the result of the game
 	// Return the result to use in game() function
   if (playerScore === 5 || computerScore === 5) {
+    if (confirm('Do you want to play again?')) {
+      playerScore = 0;
+      computerScore = 0;
+    } else {
+      alert('Thank you for playing!');
+    }
     return gameResult;
   } else {
     return `${result} The computer chose ${computerSelection} and you chose ${playerSelection}.`;
