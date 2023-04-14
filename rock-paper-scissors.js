@@ -93,6 +93,7 @@ selectBtns.forEach((selectBtn) => {
 
     let computerScoreDisplay = document.querySelector('#computer-score');
     let playerScoreDisplay = document.querySelector('#player-score');
+    let roundOverview = document.querySelector('#round-overview');
     
     if (roundResult.result === 0) {
       playerScore++;
@@ -102,6 +103,7 @@ selectBtns.forEach((selectBtn) => {
 
     computerScoreDisplay.textContent = `Computer: ${computerScore}`;
     playerScoreDisplay.textContent = `Player: ${playerScore}`;
+    roundOverview.textContent = roundResult.stringResult;
 
   });
 });
