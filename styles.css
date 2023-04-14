@@ -1,4 +1,9 @@
 #btn img {
     width: 150px;
     height: 150px;
+    margin: 0;
+}
+
+#btn {
+    padding: 0;
 }
