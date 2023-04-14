@@ -87,11 +87,3 @@ function game() {
 	let computerPoints = 0;
 
 }
-
-alert(`Let's play rock, paper, scissors!
-Here's how it works:\n
-- Type "game()" into the console to start the game.
-- The game consists of 5 rounds, first to 3 points win.
-- If the user or the computer enters an invalid input, that round will not count towards the total amount of rounds played.
-- If the result of the round is a tie, that round will not count towards the total amount of rounds played.
-- Have fun!`)
