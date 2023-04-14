@@ -22,7 +22,7 @@ function playRound(computerSelection = '', playerSelection = '') {
 	const GAME_RESULTS = ['You win!', 'You lose...', 'It\'s a tie.']
 	let result = '';
 
-	playerSelection = playerSelection.toLowerCase(); // Allows the player to input their answer in any case.
+	// playerSelection = playerSelection.toLowerCase(); // Allows the player to input their answer in any case.
 
 	// testing if/switch case block
 	if (computerSelection === 'rock') {
@@ -81,6 +81,13 @@ function playRound(computerSelection = '', playerSelection = '') {
 }
 
 const selectBtns = document.querySelectorAll('#btn');
+console.log(selectBtns);
+
 selectBtns.forEach((selectBtn) => {
-	selectBtn.addEventListener('click', playRound(getComputerChoice, getPlayerChoice));
+	selectBtn.addEventListener('click', (e) => {
+
+    let playerChoice = e.target.parentElement.className;
+    playRound(getComputerChoice(), playerChoice);
+
+  });
 });
