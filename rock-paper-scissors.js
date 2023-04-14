@@ -6,9 +6,6 @@ output.textContent = 'Rock, paper, or scissors?';
 const playerScoreDisp = document.querySelector('#player-score');
 const computerScoreDisp = document.querySelector('#computer-score');
 
-// function to get the randomly chosen computer choice
-// choice is selected in an array of options,
-// using the index of the array and the Math.random and Math.floor functions
 function getComputerChoice() {
 
 	let computerChoice = CHOICES[Math.floor(Math.random() * 3)];
@@ -17,22 +14,13 @@ function getComputerChoice() {
 
 }
 
-// function that plays a round of rock, paper, scissors
-// take parameters for the computer and player's choices
-// add check to see which player wins and return the appropriate string
-// test player's choice against computer's choice in switch case statements
-// nested inside if else statements
 function playRound(playerSelection) {
 
-	// array to contain the result of each scenario
 	const GAME_RESULTS = ['You win!', 'You lose...', 'It\'s a tie.']
 	let result = '';
 
   let computerSelection = getComputerChoice();
 
-	// playerSelection = playerSelection.toLowerCase(); // Allows the player to input their answer in any case.
-
-	// testing if/switch case block
 	if (computerSelection === 'rock') {
 		switch (playerSelection) {
 			case 'rock':
@@ -83,11 +71,10 @@ function playRound(playerSelection) {
 		}
 	} else {
 		throw new Error('Something went wrong, somehow the computer didn\'t make a choice.')
-	} // This error only occurs if the computer didn't get a selection, very unlikely to occur
+	}
 
   let gameResult = determineGameWinner();
-	// Build a string displaying the result of the game
-	// Return the result to use in game() function
+
   if (playerScore === 5 || computerScore === 5) {
     return gameResult;
   } else {
@@ -101,10 +88,6 @@ const selectBtns = document.querySelectorAll('#btn');
 selectBtns.forEach((selectBtn) => {
 	selectBtn.addEventListener('click', (e) => {
     
-    // Plays the game only while both scores are under 5
-    // Grab player's choice from the targeted button
-    // Then store the result of the playround() function which is being called with the player's choice passed
-    // as an argument
     if (playerScore < 5 && computerScore < 5) {
       let playerChoice = selectBtn.className;
       let roundResult = playRound(playerChoice);
