@@ -1,6 +1,7 @@
 const CHOICES = ['rock', 'paper', 'scissors'];
 let playerScore = 0;
 let computerScore = 0;
+let playerChoiceHistory = [];
 const output = document.querySelector('#output');
 output.textContent = 'Rock, paper, or scissors?';
 const playerScoreDisp = document.querySelector('#player-score');
@@ -18,8 +19,21 @@ function playRound(playerSelection) {
 
 	const GAME_RESULTS = ['You win!', 'You lose...', 'It\'s a tie.']
 	let result = '';
+  let computerSelection;
 
-  let computerSelection = getComputerChoice();
+  if (playerChoiceHistory.length === 0) {
+    computerSelection = getComputerChoice();
+  } else {
+    const choiceMode = mode(playerChoiceHistory);
+    if (choiceMode === 'rock') {
+      computerSelection = 'paper';
+    } else if (choiceMode === 'paper') {
+      computerSelection = 'scissors';
+    } else if (choiceMode === 'scissors') {
+      computerSelection = 'rock';
+    }
+  }
+  playerChoiceHistory.push(playerSelection);
 
 	if (computerSelection === 'rock') {
 		switch (playerSelection) {
@@ -118,4 +132,25 @@ function determineGameWinner() {
   } else if (computerScore === 5) {
     return 'Computer Wins... You lose. Game over. :^(';
   }
+}
+
+function mode(array) {
+    if(array.length == 0)
+        return null;
+    let modeMap = {};
+    let maxEl = array[0], maxCount = 1;
+    for(let i = 0; i < array.length; i++)
+    {
+        let el = array[i];
+        if(modeMap[el] == null)
+            modeMap[el] = 1;
+        else
+            modeMap[el]++;  
+        if(modeMap[el] > maxCount)
+        {
+            maxEl = el;
+            maxCount = modeMap[el];
+        }
+    }
+    return maxEl;
 }
