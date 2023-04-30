@@ -29,73 +29,41 @@ function getComputerChoice() {
 }
 
 function playRound(playerSelection) {
-
-	const GAME_RESULTS = ['You win!', 'You lose...', 'It\'s a tie.']
-	let result = '';
-  let computerSelection = getComputerChoice();
+  const GAME_RESULTS = ['You win!', 'You lose...', 'It\'s a tie.'];
+  let resultIndex;
+  let computerSelection = getComputerChoice(playerSelection);
   playerChoiceHistory.push(playerSelection);
 
-	if (computerSelection === 'rock') {
-		switch (playerSelection) {
-			case 'rock':
-				result = GAME_RESULTS[2];
-				break;
-			case 'paper':
-				result = GAME_RESULTS[0];
-        playerScore++;
-				break;
-			case 'scissors':
-				result = GAME_RESULTS[1];
-        computerScore++;
-				break;
-			default:
-				return 'You did not choose, or you entered an invalid input.';
-		}
-	} else if (computerSelection === 'paper') {
-		switch (playerSelection) {
-			case 'rock':
-				result = GAME_RESULTS[1];
-        computerScore++;
-				break;
-			case 'paper':
-				result = GAME_RESULTS[2];
-				break;
-			case 'scissors':
-				result = GAME_RESULTS[0];
-        playerScore++;
-				break;
-			default:
-				return 'You did not choose, or you entered an invalid input.';
-		}
-	} else if (computerSelection === 'scissors') {
-		switch (playerSelection) {
-			case 'rock':
-				result = GAME_RESULTS[0];
-        playerScore++;
-				break;
-			case 'paper':
-				result = GAME_RESULTS[1];
-        computerScore++;
-				break;
-			case 'scissors':
-				result = GAME_RESULTS[2];
-				break;
-			default:
-				return 'You did not choose, or you entered an invalid input.';
-		}
-	} else {
-		throw new Error('Something went wrong, somehow the computer didn\'t make a choice.')
-	}
+  switch (playerSelection) {
+    case 'rock':
+      resultIndex = computerSelection === 'scissors' ? 0 : computerSelection === 'paper' ? 1 : 2;
+      break;
+    case 'paper':
+      resultIndex = computerSelection === 'rock' ? 0 : computerSelection === 'scissors' ? 1 : 2;
+      break;
+    case 'scissors':
+      resultIndex = computerSelection === 'paper' ? 0 : computerSelection === 'rock' ? 1 : 2;
+      break;
+    default:
+      return 'You did not choose, or you entered an invalid input.';
+  }
+
+  if (resultIndex === 0) {
+    playerScore++;
+  } else if (resultIndex === 1) {
+    computerScore++;
+  }
 
   let gameResult = determineGameWinner();
 
   if (playerScore === 5 || computerScore === 5) {
+    playerChoiceHistory = [];
     return gameResult;
   } else {
-    return `${result} The computer chose ${computerSelection} and you chose ${playerSelection}.`;
+    return `${GAME_RESULTS[resultIndex]} The computer chose ${computerSelection} and you chose ${playerSelection}.`;
   }
-
 }
+
 
 const selectBtns = document.querySelectorAll('#btn');
 
