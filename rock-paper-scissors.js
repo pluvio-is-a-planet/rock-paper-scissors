@@ -12,7 +12,7 @@ function getComputerChoice() {
 	let computerChoice;
 
   if (playerChoiceHistory.length === 0) {
-    return CHOICES[Math.floor(Math.random() * 3)];;
+    return CHOICES[Math.floor(Math.random() * 3)];
   } else {
     const choiceMode = mode(playerChoiceHistory);
     if (choiceMode === 'rock') {
