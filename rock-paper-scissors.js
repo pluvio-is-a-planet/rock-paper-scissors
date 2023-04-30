@@ -9,7 +9,20 @@ const computerScoreDisp = document.querySelector('#computer-score');
 
 function getComputerChoice() {
 
-	let computerChoice = CHOICES[Math.floor(Math.random() * 3)];
+	let computerChoice;
+
+  if (playerChoiceHistory.length === 0) {
+    return CHOICES[Math.floor(Math.random() * 3)];;
+  } else {
+    const choiceMode = mode(playerChoiceHistory);
+    if (choiceMode === 'rock') {
+      return 'paper';
+    } else if (choiceMode === 'paper') {
+      return 'scissors';
+    } else if (choiceMode === 'scissors') {
+      return 'rock';
+    }
+  }
 
 	return computerChoice;
 
@@ -19,20 +32,7 @@ function playRound(playerSelection) {
 
 	const GAME_RESULTS = ['You win!', 'You lose...', 'It\'s a tie.']
 	let result = '';
-  let computerSelection;
-
-  if (playerChoiceHistory.length === 0) {
-    computerSelection = getComputerChoice();
-  } else {
-    const choiceMode = mode(playerChoiceHistory);
-    if (choiceMode === 'rock') {
-      computerSelection = 'paper';
-    } else if (choiceMode === 'paper') {
-      computerSelection = 'scissors';
-    } else if (choiceMode === 'scissors') {
-      computerSelection = 'rock';
-    }
-  }
+  let computerSelection = getComputerChoice();
   playerChoiceHistory.push(playerSelection);
 
 	if (computerSelection === 'rock') {
