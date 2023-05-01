@@ -1,18 +1,19 @@
 # rock-paper-scissors
 
-In this project I will be creating a simple rock paper scissors game,
-that will be played from the browser console. I will be using
-everything that I have learnt in javascript so far.
+This is a fairly simple web-based rock, paper, scissors game, that I
+created for the "Rock, Paper, Scissors" project from The Odin Project's
+Fundamentals course.
 
-Things I've learned while completing this project:
- - Declaring an array and using it's values
- - Using the Math.random and Math.floor functions to select a random item from an array
- - How a for loop works and how to control it's iterator variable
- - How to receive input from the user and assign it to a variable
- - How to use functions within functions
- - How to compare two values to check for the correct value
- - How to return an object and access it's properties outside of it's function's scope
+It features a UI for the player to choose between rock, paper, and
+scissors.
 
-Overall this was a very fun project to complete, and I feel like it's a
-fairly good baseline for testing your skills in javascript when you
-have just started learning.
+It also features some functionality that allows the CPU to make 'smart'
+choices by randomly picking a strategy, aggressive, defensive, counter,
+or random. The CPU then calls the corresponding function to the chosen
+strategy, and then makes it's choice based on the player's previous
+choices. The CPU does also have a way of breaking out of a 'tie loop',
+where there has been 2 or more consecutive ties, by always choosing to
+play either aggressive or randomly in such a situation.
+
+Planned features/updates:
+ - GUI update
