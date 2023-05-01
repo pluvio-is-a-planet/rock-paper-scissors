@@ -24,7 +24,7 @@ function getComputerChoice() {
     strategies[randomIndex](lastChoice) :
     playRandom();
   }
-s
+
 }
 
 function playRound(playerSelection) {
