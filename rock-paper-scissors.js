@@ -6,16 +6,25 @@ const output = document.querySelector('#output');
 output.textContent = 'Rock, paper, or scissors?';
 const playerScoreDisp = document.querySelector('#player-score');
 const computerScoreDisp = document.querySelector('#computer-score');
+let computerChoice;
+let consecutiveRoundTies = 0;
 
 function getComputerChoice() {
 
   const strategies = [playDefensive, playAggressive, alwaysCounter, playRandom];
   const randomIndex = Math.floor(Math.random() * strategies.length);
   const lastChoice = playerChoiceHistory[playerChoiceHistory.length - 1];
-  return (playerChoiceHistory.length > 0) ?
-  strategies[randomIndex](lastChoice) :
-  CHOICES[Math.floor(Math.random() * 3)];
-
+  if (consecutiveRoundTies >= 2) {
+    const randomAggressive = [1, 3]; // indeces of playAggressive and playRandom functions in strategies
+    const randomIndex = Math.floor(Math.random() * randomAggressive.length);
+    consecutiveRoundTies = 0;
+    return strategies[randomAggressive[randomIndex]](lastChoice);
+  } else {
+    return (playerChoiceHistory.length > 0) ?
+    strategies[randomIndex](lastChoice) :
+    playRandom();
+  }
+s
 }
 
 function playRound(playerSelection) {
@@ -23,6 +32,7 @@ function playRound(playerSelection) {
   let resultIndex;
   let computerSelection = getComputerChoice(playerSelection);
   playerChoiceHistory.push(playerSelection);
+  console.log(`Player Choices: ${playerChoiceHistory.join(', ')}`);
 
   switch (playerSelection) {
     case 'rock':
@@ -39,15 +49,16 @@ function playRound(playerSelection) {
   }
 
   if (resultIndex === 0) {
+    consecutiveRoundTies = 0;
     playerScore++;
   } else if (resultIndex === 1) {
+    consecutiveRoundTies = 0;
     computerScore++;
-  }
+  } else consecutiveRoundTies++;
 
   let gameResult = determineGameWinner();
 
   if (playerScore === 5 || computerScore === 5) {
-    playerChoiceHistory = [];
     return gameResult;
   } else {
     return `${GAME_RESULTS[resultIndex]} The computer chose ${computerSelection} and you chose ${playerSelection}.`;
@@ -117,7 +128,7 @@ const counterMoves = {
 }
 
 function playDefensive(playerChoice) {
-  console.log('Please don\'t bully me');
+  console.log('Please don\'t bully me. (Defensive)');
   const randomIndex = Math.floor(Math.random() * 2);
   const mostCommon = findMostCommon(playerChoiceHistory);
   const choicesCount = playerChoiceHistory.reduce((choicesCount, choice) => {
@@ -127,14 +138,17 @@ function playDefensive(playerChoice) {
   }, {});
 
   if (choicesCount[mostCommon] > 1 && computerScore >= playerScore) {
-    return counterMoves[playerChoice][0];
+    computerChoice = counterMoves[playerChoice][0];
   } else {
-    return counterMoves[playerChoice][randomIndex];
+    computerChoice = counterMoves[playerChoice][randomIndex];
   }
+
+  console.log(`Computer prediction: ${computerChoice}`);
+  return computerChoice;
 }
 
 function playAggressive(playerChoice) {
-  console.log('Get fucked you nerd.');
+  console.log('Get fucked you nerd. (Aggressive)');
   const randomIndex = Math.floor(Math.random() * 2);
   const cpuChoiceHistory = playerChoiceHistory.slice(1);
   const playerLastChoice = playerChoiceHistory[playerChoiceHistory.length - 1];
@@ -159,11 +173,13 @@ function playAggressive(playerChoice) {
     }
   }
 
-  return counterMoves[playerChoice][choiceIndex];
+  computerChoice = counterMoves[playerChoice][choiceIndex];
+  console.log(`Computer prediction: ${computerChoice}`);
+  return computerChoice;
 }
 
 function alwaysCounter(playerChoice) {
-  console.log('Get countered.')
+  console.log('Get countered. (Counter)')
   const mostCommon = findMostCommon(playerChoiceHistory);
   const choicesCount = playerChoiceHistory.reduce((choicesCount, choice) => {
     choicesCount[choice] = ++choicesCount[choice] || 1;
@@ -172,10 +188,13 @@ function alwaysCounter(playerChoice) {
   }, {});
 
   if (choicesCount[mostCommon] > 1) {
-    return counterMoves[playerChoice][1];
+    computerChoice = counterMoves[playerChoice][1];
   } else {
-    return counterMoves[playerChoice][0];
+    computerChoice = counterMoves[playerChoice][0];
   }
+
+  console.log(`Computer prediction: ${computerChoice}`);
+  return computerChoice;
 }
 
 function isPlayerAggressive(arr) {
@@ -190,7 +209,7 @@ function isPlayerAggressive(arr) {
 }
 
 function playRandom() {
-  console.log('I\'m feeling a little crazy today.');
+  console.log('I\'m feeling a little crazy today. (Random)');
   const randomIndex = Math.floor(Math.random() * CHOICES.length);
   return CHOICES[randomIndex];
 }
