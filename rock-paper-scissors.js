@@ -9,8 +9,12 @@ output.textContent = 'Rock, paper, or scissors?';
 let playerScore = 0;
 let computerScore = 0;
 let playerChoiceHistory = [];
+let lastThreeChoices = [];
+let cpuChoiceHistory = [];
 let computerChoice;
 let consecutiveRoundTies = 0;
+
+const allEqual = arr => arr.every(val => val === arr[0]);
 
 function getComputerChoice() {
 
@@ -18,6 +22,8 @@ function getComputerChoice() {
   const randomIndex = Math.floor(Math.random() * strategies.length);
   const lastChoice = playerChoiceHistory[playerChoiceHistory.length - 1];
   
+  lastThreeChoices = playerChoiceHistory.slice(-3);
+
   if (consecutiveRoundTies >= 2) {
     
     const randomAggressive = [1, 3]; // indeces of playAggressive and playRandom functions in strategies
@@ -27,9 +33,17 @@ function getComputerChoice() {
 
   } else {
     
-    return (playerChoiceHistory.length > 0) ?
-            strategies[randomIndex](lastChoice) :
-            playRandom();
+    if (playerChoiceHistory.length > 0) {
+
+      if (playerChoiceHistory.length > 1) {
+        
+        if (allEqual(lastThreeChoices)) {
+          return playAggressive(lastChoice);
+        } else return strategies[randomIndex](lastChoice);
+
+      } else return strategies[randomIndex](lastChoice);
+
+    } else return playRandom();
 
   }
 
@@ -41,6 +55,8 @@ function playRound(playerSelection) {
   
   let resultIndex;
   let computerSelection = getComputerChoice(playerSelection);
+  cpuChoiceHistory.push(computerSelection);
+  console.log(`Computer's Choices: ${cpuChoiceHistory.join(', ')}`);
 
   playerChoiceHistory.push(playerSelection);
   console.log(`Player Choices: ${playerChoiceHistory.join(', ')}`);
@@ -97,6 +113,8 @@ selectBtns.forEach((selectBtn) => {
       if (confirm('Do you want to play again?')) {
         playerScore = 0;
         computerScore = 0;
+        playerChoiceHistory = [];
+        cpuChoiceHistory = [];
         output.textContent = 'Rock, paper, or scissors?';
         playerScoreDisp.textContent = `Player: ${playerScore}`;
         computerScoreDisp.textContent = `Computer: ${computerScore}`;
@@ -170,25 +188,18 @@ function playDefensive(playerChoice) {
 function playAggressive(playerChoice) {
   console.log('Get fucked you nerd. (Aggressive)');
 
-  const randomIndex = Math.floor(Math.random() * 2);
-  const cpuChoiceHistory = playerChoiceHistory.slice(1);
   const playerLastChoice = playerChoiceHistory[playerChoiceHistory.length - 1];
+  lastThreeChoices = playerChoiceHistory.slice(-3);
   const cpuLastChoice = cpuChoiceHistory[cpuChoiceHistory.length - 1];
   const playerScoreDiff = playerScore - computerScore;
 
   let choiceIndex;
 
-  if (isPlayerAggressive(playerChoiceHistory)) {
-    if (playerScoreDiff > 0) {
-      choiceIndex = 1;
-    } else if (playerScoreDiff < 0) {
-      choiceIndex = 0;
-    } else {
-      choiceIndex = randomIndex + 1;
-    }
+  if (isPlayerAggressive(lastThreeChoices)) {
+    choiceIndex = (playerScoreDiff === 0 || allEqual(lastThreeChoices)) ? 1 : Math.floor(Math.random() * 2) + 1;
   } else {
     if (cpuLastChoice === playerLastChoice) {
-      choiceIndex = randomIndex + 1;
+      choiceIndex = Math.floor(Math.random() * 2) + 1;
     } else {
       const counterMoveIndex = counterMoves[playerLastChoice].indexOf(cpuLastChoice);
       choiceIndex = (counterMoveIndex + 2) % 3;
