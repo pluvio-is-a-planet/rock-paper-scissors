@@ -11,7 +11,7 @@ let consecutiveRoundTies = 0;
 
 function getComputerChoice() {
 
-  const strategies = [playDefensive, playAggressive, alwaysCounter, playRandom];
+  const strategies = [playDefensive, playAggressive, playCounter, playRandom];
   const randomIndex = Math.floor(Math.random() * strategies.length);
   const lastChoice = playerChoiceHistory[playerChoiceHistory.length - 1];
   if (consecutiveRoundTies >= 2) {
@@ -178,7 +178,7 @@ function playAggressive(playerChoice) {
   return computerChoice;
 }
 
-function alwaysCounter(playerChoice) {
+function playCounter(playerChoice) {
   console.log('Get countered. (Counter)')
   const mostCommon = findMostCommon(playerChoiceHistory);
   const choicesCount = playerChoiceHistory.reduce((choicesCount, choice) => {
