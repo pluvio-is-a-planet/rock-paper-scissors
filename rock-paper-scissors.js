@@ -1,11 +1,14 @@
 const CHOICES = ['rock', 'paper', 'scissors'];
+
+const output = document.querySelector('#output');
+const playerScoreDisp = document.querySelector('#player-score');
+const computerScoreDisp = document.querySelector('#computer-score');
+
+output.textContent = 'Rock, paper, or scissors?';
+
 let playerScore = 0;
 let computerScore = 0;
 let playerChoiceHistory = [];
-const output = document.querySelector('#output');
-output.textContent = 'Rock, paper, or scissors?';
-const playerScoreDisp = document.querySelector('#player-score');
-const computerScoreDisp = document.querySelector('#computer-score');
 let computerChoice;
 let consecutiveRoundTies = 0;
 
@@ -14,27 +17,36 @@ function getComputerChoice() {
   const strategies = [playDefensive, playAggressive, playCounter, playRandom];
   const randomIndex = Math.floor(Math.random() * strategies.length);
   const lastChoice = playerChoiceHistory[playerChoiceHistory.length - 1];
+  
   if (consecutiveRoundTies >= 2) {
+    
     const randomAggressive = [1, 3]; // indeces of playAggressive and playRandom functions in strategies
     const randomIndex = Math.floor(Math.random() * randomAggressive.length);
     consecutiveRoundTies = 0;
     return strategies[randomAggressive[randomIndex]](lastChoice);
+
   } else {
+    
     return (playerChoiceHistory.length > 0) ?
-    strategies[randomIndex](lastChoice) :
-    playRandom();
+            strategies[randomIndex](lastChoice) :
+            playRandom();
+
   }
 
 }
 
 function playRound(playerSelection) {
+  
   const GAME_RESULTS = ['You win!', 'You lose...', 'It\'s a tie.'];
+  
   let resultIndex;
   let computerSelection = getComputerChoice(playerSelection);
+
   playerChoiceHistory.push(playerSelection);
   console.log(`Player Choices: ${playerChoiceHistory.join(', ')}`);
 
   switch (playerSelection) {
+    
     case 'rock':
       resultIndex = computerSelection === 'scissors' ? 0 : computerSelection === 'paper' ? 1 : 2;
       break;
@@ -46,6 +58,7 @@ function playRound(playerSelection) {
       break;
     default:
       return 'You did not choose, or you entered an invalid input.';
+
   }
 
   if (resultIndex === 0) {
@@ -78,6 +91,7 @@ selectBtns.forEach((selectBtn) => {
       output.textContent = roundResult;
       playerScoreDisp.textContent = `Player: ${playerScore}`;
       computerScoreDisp.textContent = `Computer: ${computerScore}`;
+
     } else {
 
       if (confirm('Do you want to play again?')) {
@@ -96,14 +110,17 @@ selectBtns.forEach((selectBtn) => {
 });
 
 function determineGameWinner() {
+  
   if (playerScore === 5) {
     return 'Player wins! Game over. B^)';
   } else if (computerScore === 5) {
     return 'Computer Wins... You lose. Game over. :^(';
   }
+
 }
 
 function findMostCommon(arr) {
+
   let freqMap = {};
   let mostCommon = arr[0];
 
@@ -119,6 +136,7 @@ function findMostCommon(arr) {
   });
 
   return mostCommon;
+
 }
 
 const counterMoves = {
@@ -129,8 +147,10 @@ const counterMoves = {
 
 function playDefensive(playerChoice) {
   console.log('Please don\'t bully me. (Defensive)');
+
   const randomIndex = Math.floor(Math.random() * 2);
   const mostCommon = findMostCommon(playerChoiceHistory);
+
   const choicesCount = playerChoiceHistory.reduce((choicesCount, choice) => {
     choicesCount[choice] = ++choicesCount[choice] || 1;
 
@@ -149,11 +169,13 @@ function playDefensive(playerChoice) {
 
 function playAggressive(playerChoice) {
   console.log('Get fucked you nerd. (Aggressive)');
+
   const randomIndex = Math.floor(Math.random() * 2);
   const cpuChoiceHistory = playerChoiceHistory.slice(1);
   const playerLastChoice = playerChoiceHistory[playerChoiceHistory.length - 1];
   const cpuLastChoice = cpuChoiceHistory[cpuChoiceHistory.length - 1];
   const playerScoreDiff = playerScore - computerScore;
+
   let choiceIndex;
 
   if (isPlayerAggressive(playerChoiceHistory)) {
@@ -179,8 +201,10 @@ function playAggressive(playerChoice) {
 }
 
 function playCounter(playerChoice) {
-  console.log('Get countered. (Counter)')
+  console.log('Get countered. (Counter)');
+
   const mostCommon = findMostCommon(playerChoiceHistory);
+
   const choicesCount = playerChoiceHistory.reduce((choicesCount, choice) => {
     choicesCount[choice] = ++choicesCount[choice] || 1;
 
@@ -198,7 +222,9 @@ function playCounter(playerChoice) {
 }
 
 function isPlayerAggressive(arr) {
+
   const mostCommon = findMostCommon(playerChoiceHistory);
+
   const choicesCount = arr.reduce((choicesCount, choice) => {
     choicesCount[choice] = ++choicesCount[choice] || 1;
 
@@ -210,6 +236,7 @@ function isPlayerAggressive(arr) {
 
 function playRandom() {
   console.log('I\'m feeling a little crazy today. (Random)');
+  
   const randomIndex = Math.floor(Math.random() * CHOICES.length);
   return CHOICES[randomIndex];
 }
