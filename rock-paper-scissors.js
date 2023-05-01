@@ -205,7 +205,7 @@ function isPlayerAggressive(arr) {
     return choicesCount;
   }, {});
 
-  return (choicesCount[mostCommon] > 1) ? true : false;
+  return (choicesCount[mostCommon] > 1);
 }
 
 function playRandom() {
